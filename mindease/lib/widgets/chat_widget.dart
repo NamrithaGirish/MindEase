@@ -7,17 +7,20 @@ import 'package:google_fonts/google_fonts.dart';
 //import 'text_widget.dart';
 
 class ChatWidget extends StatelessWidget {
-  const ChatWidget(
+   ChatWidget(
       {super.key,
       required this.msg,
       required this.chatIndex,
       this.shouldAnimate = false});
 
   final String msg;
+  static  String ans='';
   final int chatIndex;
   final bool shouldAnimate;
   @override
   Widget build(BuildContext context) {
+     ans=msg.trim();
+    //print(ans);
     return Column(
       children: [
         Material(
@@ -62,7 +65,7 @@ class ChatWidget extends StatelessWidget {
                           : Text(
                               msg.trim(),
                               style:  GoogleFonts.poppins(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16),
                             ),

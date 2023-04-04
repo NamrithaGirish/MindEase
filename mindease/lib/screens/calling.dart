@@ -6,15 +6,21 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'call.dart';
 import 'chat_screen.dart';
+import 'package:chatgpt_course/services/speechapi.dart';
 
 class CallingPage extends StatefulWidget {
+  
   const CallingPage({super.key});
-
+  
+  
   @override
   State<CallingPage> createState() => _CallingPageState();
 }
 
 class _CallingPageState extends State<CallingPage> {
+  bool no=true;
+  String text = 'Press the button and start speaking';
+  bool isListening = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,11 +33,29 @@ startTime() async {
   return new Timer(duration, route);
 }
   route() {
+    if(!no){
   Navigator.pushReplacement(context, MaterialPageRoute(
-      builder: (context) => Call()
+      builder: (context) => ChatScreen()
     )
-  ); 
+  ); }
+  else{
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>Call()));
+    
+  }
 }
+  toggleRecording() => SpeechApi.toggleRecording(
+        onResult: (text) => setState(() => this.text = text),
+        onListening: (isListening) {
+          setState(() => this.isListening = isListening);
+
+          if (!isListening) {
+            Future.delayed(Duration(seconds: 1), () {
+              Utils.scanText(text);
+              print(text);
+            });
+          }
+        },
+      );
 
   initScreen(BuildContext context) {
     final double width=MediaQuery.of(context).size.width;
@@ -73,7 +97,7 @@ startTime() async {
                       width: width/3,
                       child: GestureDetector(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatScreen()));
+                          no=false;
                         },
                         child: Icon(Icons.phone_disabled_sharp,color: Colors.black,)),
                     ),
