@@ -21,6 +21,7 @@ class _CallingPageState extends State<CallingPage> {
   bool no=true;
   String text = 'Press the button and start speaking';
   bool isListening = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,10 +41,10 @@ startTime() async {
   ); }
   else{
     Navigator.push(context, MaterialPageRoute(builder: (context)=>Call()));
-    
+    toggleRecording();
   }
 }
-  toggleRecording() => SpeechApi.toggleRecording(
+  Future toggleRecording() => SpeechApi.toggleRecording(
         onResult: (text) => setState(() => this.text = text),
         onListening: (isListening) {
           setState(() => this.isListening = isListening);
