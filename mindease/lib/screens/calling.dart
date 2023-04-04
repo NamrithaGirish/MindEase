@@ -15,6 +15,7 @@ class CallingPage extends StatefulWidget {
 }
 
 class _CallingPageState extends State<CallingPage> {
+  bool no=true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,10 +28,14 @@ startTime() async {
   return new Timer(duration, route);
 }
   route() {
+    if(!no){
   Navigator.pushReplacement(context, MaterialPageRoute(
-      builder: (context) => Call()
+      builder: (context) => ChatScreen()
     )
-  ); 
+  ); }
+  else{
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>Call()));
+  }
 }
 
   initScreen(BuildContext context) {
@@ -73,7 +78,7 @@ startTime() async {
                       width: width/3,
                       child: GestureDetector(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatScreen()));
+                          no=false;
                         },
                         child: Icon(Icons.phone_disabled_sharp,color: Colors.black,)),
                     ),
